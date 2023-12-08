@@ -28,15 +28,3 @@ class Place(BaseModel):
     latitude = 0.0
     longitude = 0.0
     amenity_id = []
-
-
-class City(BaseModel):
-    """ Represents a city.
-
-    Attributes:
-    name (str): name of the city.
-    state_id (str): id of the state.
-    """
-
-    name = ""
-    state_id = ""

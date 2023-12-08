@@ -17,13 +17,3 @@ class User(BaseModel):
     last_name = ""
     email = ""
     password = ""
-
-
-class State(BaseModel):
-    """ Represents the state of the user.
-
-    Attributes
-    name (str) : name of the state.
-    """
-
-    name = ""
