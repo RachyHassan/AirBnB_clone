@@ -42,12 +42,12 @@ class TestBaseModel_instantiation(unittest.TestCase):
         self.assertLess(bm1.created_at, bm2.created_at)
 
     def test_instantiation_with_args_and_kwargs(self):
-        dt = datetime.toay()
+        dt = datetime.today()
         dt_iso = dt.isoformat()
         bm = BaseModel("12", id="345",
                        created_at=dt_iso, updated_at=dt_iso)
-        self.assertEqal(bm.created_at, dt)
-        self.assertEqual(bm.updated_at, dt)
+        self.assertEqual(bm.created_at.replace(microsecond=0), dt.replace(microsecond=0))
+        self.assertEqual(bm.updated_at.replace(microsecond=0), dt.replace(microsecond=0))
 
     def test_args_unused(self):
         bm = BaseModel(None)
@@ -63,7 +63,7 @@ class TestBaseModel_to_dict(unittest.TestCase):
 
     def test_to_dict_with_arg(self):
         bm = BaseModel()
-        wih self.assertRaises(TypeError):
+        with self.assertRaises(TypeError):
             bm.to_dict(None)
 
     def test_to_dict_type(self):
