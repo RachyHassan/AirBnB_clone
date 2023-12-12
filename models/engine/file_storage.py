@@ -37,10 +37,9 @@ class FileStorage:
 
         for obj in obj_dict.keys():
             odict[obj] = obj_dict[obj].to_dict()
-            
+
         with open(FileStorage.__file_path, "w", encoding="utf-8") as j:
             json.dump(odict, j)
-
 
     def reload(self):
         """ Deserialize JSON file __file__path to __objects. """
