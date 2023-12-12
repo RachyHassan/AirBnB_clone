@@ -189,6 +189,20 @@ class HBNBCommand(cmd.Cmd):
                             obj.__dict__[k] = v
             storage.save()
 
+    def do_all(self, arg):
+        """ Prints all string representatin of all instances
+        based or ot on the class name.
+        """
+        arg_1 = parse(arg)
+        if len(arg_1) > 0 and arg_1[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist**")
+        else:
+            obj_1 = []
+            for obj in storage.all().values():
+                if len(arg_1) > 0 and arg1[0] == obj.__class__.__name__:
+                    obj_1.append(obj.__str__())
+            print(obj_1)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
