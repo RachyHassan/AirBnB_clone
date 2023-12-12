@@ -46,8 +46,10 @@ class TestBaseModel_instantiation(unittest.TestCase):
         dt_iso = dt.isoformat()
         bm = BaseModel("12", id="345",
                        created_at=dt_iso, updated_at=dt_iso)
-        self.assertEqual(bm.created_at.replace(microsecond=0), dt.replace(microsecond=0))
-        self.assertEqual(bm.updated_at.replace(microsecond=0), dt.replace(microsecond=0))
+        self.assertEqual(bm.created_at.replace(microsecond=0),
+                         dt.replace(microsecond=0))
+        self.assertEqual(bm.updated_at.replace(microsecond=0),
+                         dt.replace(microsecond=0))
 
     def test_args_unused(self):
         bm = BaseModel(None)
