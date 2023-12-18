@@ -71,8 +71,9 @@ class HBNBCommand(cmd.Cmd):
                 if command[0] in argdict.keys():
                     call = "{} {}".format(argl[0], command[1])
                     return argdict[command[0]](call)
-                print("*** Unknown syntax: {}".format(arg))
-                return False
+
+        print("*** Unknown syntax: {}".format(arg))
+        return False
 
     def do_quit(self, arg):
         """ Quit command to exit program."""
@@ -111,7 +112,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print(objdict["{}.{}".format(argl[0], argl[1])])
 
-    def do_destoy(self, arg):
+    def do_destroy(self, arg):
         """ Delete a class instance of a given id.
         destroy <class><id> or <class>.destroy(<id>)
         """
@@ -128,6 +129,22 @@ class HBNBCommand(cmd.Cmd):
         else:
             del objdict["{}.{}".format(argl[0], argl[1])]
             storage.save()
+
+    def do_all(self, arg):
+        """ Prints all string representatin of all instances
+        based or ot on the class name.
+        """
+        arg1 = parse(arg)
+        if len(arg1) > 0 and arg1[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        else:
+            obj1 = []
+            for obj in storage.all().values():
+                if len(arg1) > 0 and arg1[0] == obj.__class__.__name__:
+                    obj1.append(obj.__str__())
+                elif len(arg1) == 0:
+                    obj1.append(obj.__str__())
+                print(obj1)
 
     def do_count(self, arg):
         """ Retrieve the number of instances of a given class.
@@ -177,31 +194,17 @@ class HBNBCommand(cmd.Cmd):
                     obj.__dict__[argl[2]] = valtype(argl[3])
                 else:
                     obj.__dict__[argl[2]] = argl[3]
-                elif type(eval(argl[2])) == dict:
-                    obj = objdict["{}.{}".format(argl[0], argl[1])]
-                    for k, v in eval(argl[2]).items():
-                        if (k in obj.__class__.__dict__.keys() and
-                                type(obj.__class__.__dict__[k]) in
-                                {str, int, float}):
-                            valtype = type(obj.__class__.__dict__[k])
-                            obj.__dict__[k] = valtype(v)
-                        else:
-                            obj.__dict__[k] = v
+            elif type(eval(argl[2])) == dict:
+                obj = objdict["{}.{}".format(argl[0], argl[1])]
+                for k, v in eval(argl[2]).items():
+                    if (k in obj.__class__.__dict__.keys() and
+                            type(obj.__class__.__dict__[k]) in
+                            {str, int, float}):
+                        valtype = type(obj.__class__.__dict__[k])
+                        obj.__dict__[k] = valtype(v)
+                    else:
+                        obj.__dict__[k] = v
             storage.save()
-
-    def do_all(self, arg):
-        """ Prints all string representatin of all instances
-        based or ot on the class name.
-        """
-        arg_1 = parse(arg)
-        if len(arg_1) > 0 and arg_1[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist**")
-        else:
-            obj_1 = []
-            for obj in storage.all().values():
-                if len(arg_1) > 0 and arg1[0] == obj.__class__.__name__:
-                    obj_1.append(obj.__str__())
-            print(obj_1)
 
 
 if __name__ == '__main__':
